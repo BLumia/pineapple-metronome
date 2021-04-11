@@ -1,0 +1,10 @@
+# IDE user dirs
+.idea/
+.vscode/
+
+# Build dir
+[Bb]uild/
+cmake-build-*/
+
+# Qt Creator user file
+CMakeLists.txt.user*
