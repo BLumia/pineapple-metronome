@@ -1,6 +1,22 @@
 #include "SpinButtonComponent.h"
 #include <juce_graphics/juce_graphics.h>
 
+#include <math.h>
+
+double radius(const PointF &origin, const PointF &start, const PointF &end)
+{
+    return atan2(end.getY() - origin.getY(), end.getX() - origin.getX()) -
+           atan2(start.getY() - origin.getY(), start.getX() - origin.getX());
+}
+
+double angle(const PointF &origin, const PointF &start, const PointF &end)
+{
+    double a = radius(origin, start, end) / M_PI * 180.0f;
+    int move = (a + (a < 0 ? -180 : 180)) / 360;
+    return (fabs(a) > 180) ? (a - move * 360) : a;
+//    return a > 180 ? a - 360 : a;
+}
+
 //==============================================================================
 SpinButtonComponent::SpinButtonComponent()
 {
@@ -55,7 +71,7 @@ void SpinButtonComponent::mouseDown(const juce::MouseEvent &e)
         DBG("button pressed");
     } else {
         Trail * t = new Trail (e.source);
-        t->path.startNewSubPath (e.position);
+        t->startPoint(e.position, getLocalBounds().getCentre().toFloat());
         m_trails.add(t);
     }
 }

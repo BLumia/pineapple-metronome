@@ -1,19 +1,4 @@
-# Example GUI App CMakeLists.txt
-
-# To get started on a new GUI app, copy this entire folder (containing this file and C++ sources) to
-# a convenient location, and then start making modifications. For other examples of CMakeLists for
-# GUI apps, check `extras/Projucer` and `examples/DemoRunner` in the JUCE repo.
-
-# The first line of any CMake project should be a call to `cmake_minimum_required`, which checks
-# that the installed CMake will be able to understand the following CMakeLists, and ensures that
-# CMake's behaviour is compatible with the named version. This is a standard CMake command, so more
-# information can be found in the CMake docs.
-
 cmake_minimum_required(VERSION 3.12)
-
-# The top-level CMakeLists.txt file for a project must contain a literal, direct call to the
-# `project()` command. `project()` sets up some helpful variables that describe source/binary
-# directories, and the current project version. This is a standard CMake command.
 
 project(pineapple-metronome VERSION 0.0.1)
 
@@ -55,7 +40,9 @@ juce_add_gui_app(${EXE_NAME}
 target_sources(${EXE_NAME}
     PRIVATE
         Main.cpp
+        MainComponent.h
         MainComponent.cpp
+        SpinButtonComponent.h
         SpinButtonComponent.cpp
 )
 

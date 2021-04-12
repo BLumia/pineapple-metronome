@@ -1,16 +1,15 @@
 #pragma once
 
-// CMake builds don't use an AppConfig.h, so it's safe to include juce module headers
-// directly. If you need to remain compatible with Projucer-generated builds, and
-// have called `juce_generate_juce_header(<thisTarget>)` in your CMakeLists.txt,
-// you could `#include <JuceHeader.h>` here instead, to make all your module headers visible.
 #include <juce_gui_basics/juce_gui_basics.h>
 
+using PointF = juce::Point<float>;
+
 //==============================================================================
-/*
-    This component lives inside our window, and this is where you should put all
-    your controls and content.
-*/
+
+double radius(const PointF &origin, const PointF &start, const PointF &end);
+
+double angle(const PointF &origin, const PointF &start, const PointF &end);
+
 class SpinButtonComponent : public juce::Component
 {
 public:
@@ -27,8 +26,29 @@ public:
             : source (ms)
         {}
 
-        void pushPoint (juce::Point<float> newPoint, juce::ModifierKeys newMods, float pressure)
+        void startPoint(const PointF & startPoint, const PointF & originPoint)
         {
+            m_lastPoint = startPoint;
+            m_originPoint = originPoint;
+
+            path.startNewSubPath(startPoint);
+        }
+
+        int pushPoint (juce::Point<float> newPoint, juce::ModifierKeys newMods, float pressure)
+        {
+            // --- start ---
+            int submit = 0;
+
+            float a = angle(m_originPoint, m_lastPoint, newPoint);
+            a += m_angleRemaining;
+            if (fabs(a) > 10) {
+                m_lastPoint = newPoint;
+                submit = a / 10;
+                m_angleRemaining = a - submit * 10;
+                DBG("submit " << submit << " remaining " << m_angleRemaining);
+            }
+            // ---  end  ---
+
             currentPosition = newPoint;
             modifierKeys = newMods;
 
@@ -48,6 +68,9 @@ public:
 
                 lastPoint = newPoint;
             }
+
+            // --- ***** ---
+            return submit;
         }
 
         juce::MouseInputSource source;
@@ -55,6 +78,10 @@ public:
         juce::Colour colour  { juce::Colours::red.withAlpha (0.6f) };
         juce::Point<float> lastPoint, currentPosition;
         juce::ModifierKeys modifierKeys;
+
+        float m_angleRemaining = 0;
+        juce::Point<float> m_lastPoint;
+        juce::Point<float> m_originPoint;
 
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Trail)
     };
