@@ -54,7 +54,10 @@ void SpinButtonComponent::mouseDrag(const juce::MouseEvent &e)
     Trail * t = getTrail (e.source);
 
     if (t) {
-        t->pushPoint (e.position, e.mods, e.pressure);
+        int submit = t->pushPoint (e.position, e.mods, e.pressure);
+        if (m_trails[0] == t) {
+            m_onValueChange(submit);
+        }
         repaint();
     }
 }

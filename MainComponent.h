@@ -19,6 +19,7 @@ class MainComponent : public juce::AudioAppComponent
 public:
     //==============================================================================
     MainComponent();
+    ~MainComponent();
 
     //==============================================================================
     void paint (juce::Graphics&) override;
@@ -33,6 +34,7 @@ public:
 private:
     //==============================================================================
     // Your private member variables go here...
+    int m_bpm = 120;
     juce::Label m_bpmLabel;
 //    juce::ToggleButton m_playToggleButton;
     SpinButtonComponent m_playToggleButton;

@@ -20,6 +20,8 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
+    std::function<void(int)> m_onValueChange = [](int){};
+
     struct Trail
     {
         Trail (const juce::MouseInputSource& ms)
