@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.12)
 project(pineapple-metronome VERSION 0.0.1)
 
 set (EXE_NAME pmetronome)
+set (ASSETS_NAME pmetronome_assets)
 
 find_package(JUCE CONFIG REQUIRED)
 # or
@@ -44,6 +45,8 @@ target_sources(${EXE_NAME}
         MainComponent.cpp
         SpinButtonComponent.h
         SpinButtonComponent.cpp
+        Metronome.h
+        Metronome.cpp
 )
 
 target_compile_definitions(${EXE_NAME}
@@ -64,7 +67,10 @@ target_compile_definitions(${EXE_NAME}
 # static library. These source files can be of any kind (wav data, images, fonts, icons etc.).
 # Conversion to binary-data will happen when your target is built.
 
-# juce_add_binary_data(${EXE_NAME} SOURCES ...)
+juce_add_binary_data(${ASSETS_NAME}
+    SOURCES
+        assets/Snare.wav
+)
 
 # blumia: reserved for Windows SDK when building with audio features.
 #         we don't need it right now with a very tiny modification to JUCE.
@@ -81,7 +87,8 @@ target_link_options(${EXE_NAME}
 
 target_link_libraries(${EXE_NAME}
     PRIVATE
-        # GuiAppData            # If we'd created a binary data target, we'd link to it here
+        ${ASSETS_NAME}            # If we'd created a binary data target, we'd link to it here
+        juce::juce_audio_formats
         juce::juce_audio_utils
         juce::juce_gui_extra
     PUBLIC

@@ -59,8 +59,7 @@ void MainComponent::resized()
 
 void MainComponent::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 {
-    juce::ignoreUnused(samplesPerBlockExpected);
-    juce::ignoreUnused(sampleRate);
+    m_metronome.prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
 
 void MainComponent::releaseResources()
@@ -70,5 +69,7 @@ void MainComponent::releaseResources()
 
 void MainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill)
 {
-    juce::ignoreUnused(bufferToFill);
+    bufferToFill.clearActiveBufferRegion();
+
+    m_metronome.getNextAudioBlock(bufferToFill);
 }
