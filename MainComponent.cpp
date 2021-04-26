@@ -16,6 +16,7 @@ MainComponent::MainComponent()
         m_bpm += submit;
         m_bpmLabel.setText(juce::String(m_bpm), juce::NotificationType::dontSendNotification);
         m_bpmLabel.repaint();
+        m_metronome.setBpm(m_bpm);
     };
 
     setAudioChannels(2, 2);
