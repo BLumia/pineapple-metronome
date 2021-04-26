@@ -19,8 +19,10 @@ public:
     //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;
+    bool isOn();
 
     std::function<void(int)> m_onValueChange = [](int){};
+    std::function<void(bool)> m_onStateChange = [](bool){};
 
     struct Trail
     {
@@ -100,6 +102,7 @@ private:
     juce::OwnedArray<Trail> m_trails;
     juce::Point<float> m_centerPos;
     juce::Rectangle<float> m_innerCircleRect;
+    bool m_isOn = false;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SpinButtonComponent)
 };

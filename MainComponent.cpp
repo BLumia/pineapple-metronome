@@ -19,6 +19,14 @@ MainComponent::MainComponent()
         m_metronome.setBpm(m_bpm);
     };
 
+    m_playToggleButton.m_onStateChange = [this](bool isOn) {
+        if (isOn) {
+            m_metronome.play();
+        } else {
+            m_metronome.stop();
+        }
+    };
+
     setAudioChannels(2, 2);
 }
 

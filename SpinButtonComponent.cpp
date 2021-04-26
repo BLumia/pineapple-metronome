@@ -36,7 +36,7 @@ void SpinButtonComponent::paint (juce::Graphics& g)
 
     g.setFont(juce::Font(m_innerCircleRect.getWidth() / 3.2, juce::Font::bold));
     g.setColour(juce::Colours::black);
-    g.drawText("ON", getLocalBounds(), juce::Justification::centred, true);
+    g.drawText(m_isOn ? "OFF" : "ON", getLocalBounds(), juce::Justification::centred, true);
 
     for (auto* trail : m_trails)
         drawTrail (*trail, g);
@@ -47,6 +47,11 @@ void SpinButtonComponent::resized()
     m_centerPos = getLocalBounds().toFloat().getCentre();
     m_innerCircleRect = getLocalBounds().toFloat();
     m_innerCircleRect.reduce(getWidth() / 3.2, getHeight() / 3.2);
+}
+
+bool SpinButtonComponent::isOn()
+{
+    return m_isOn;
 }
 
 void SpinButtonComponent::mouseDrag(const juce::MouseEvent &e)
@@ -71,7 +76,9 @@ void SpinButtonComponent::mouseUp(const juce::MouseEvent &e)
 void SpinButtonComponent::mouseDown(const juce::MouseEvent &e)
 {
     if (e.position.getDistanceFrom(m_innerCircleRect.getCentre()) <= m_innerCircleRect.getWidth() / 2) {
-        DBG("button pressed");
+        m_isOn = !m_isOn;
+        m_onStateChange(m_isOn);
+        repaint();
     } else {
         Trail * t = new Trail (e.source);
         t->startPoint(e.position, getLocalBounds().getCentre().toFloat());

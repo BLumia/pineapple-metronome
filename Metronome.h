@@ -8,6 +8,8 @@ public:
     Metronome();
 
     void setBpm(int bpm);
+    void play();
+    void stop();
 
     void prepareToPlay(int samplesPerBlockExpected, double sampleRate);
     void getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill);
@@ -22,4 +24,5 @@ private:
     int32_t m_bpm = 120;
     int64_t m_samplePerBeat = -1;
     double m_sampleRate = -1;
+    bool m_isPlaying = false;
 };

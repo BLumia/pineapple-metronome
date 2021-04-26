@@ -27,6 +27,19 @@ void Metronome::setBpm(int bpm)
     tryEnsureSamplePerBeat();
 }
 
+void Metronome::play()
+{
+    m_isPlaying = true;
+    tryEnsureSamplePerBeat();
+}
+
+void Metronome::stop()
+{
+    m_isPlaying = false;
+    m_metronomeSample->setNextReadPosition(0);
+    m_sampleRemain = 0;
+}
+
 void Metronome::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 {
     m_sampleRate = sampleRate;
@@ -41,7 +54,8 @@ void Metronome::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 
 void Metronome::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFill)
 {
-    DBG(m_metronomeSample->getTotalLength() << " " << bufferToFill.numSamples << " " << m_sampleRemain);
+    if (!m_isPlaying) return;
+//    DBG(m_metronomeSample->getTotalLength() << " " << bufferToFill.numSamples << " " << m_sampleRemain);
     if (m_sampleRemain < bufferToFill.numSamples) {
         m_metronomeSample->setNextReadPosition(0);
         m_metronomeSample->getNextAudioBlock(bufferToFill);
