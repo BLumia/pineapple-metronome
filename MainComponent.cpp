@@ -13,6 +13,8 @@ MainComponent::MainComponent()
     addAndMakeVisible(m_playToggleButton);
 
     m_playToggleButton.m_onValueChange = [this](int submit) {
+        if (m_bpm + submit < 1 || m_bpm + submit > 2000) return;
+
         m_bpm += submit;
         m_bpmLabel.setText(juce::String(m_bpm), juce::NotificationType::dontSendNotification);
         m_bpmLabel.repaint();

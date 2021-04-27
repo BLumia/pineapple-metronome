@@ -56,8 +56,13 @@ void Metronome::getNextAudioBlock(const juce::AudioSourceChannelInfo &bufferToFi
 {
     if (!m_isPlaying) return;
 //    DBG(m_metronomeSample->getTotalLength() << " " << bufferToFill.numSamples << " " << m_sampleRemain);
+    if (m_sampleRemain > m_samplePerBeat) {
+//        DBG("should only happen after adjust bpm from slow to fast");
+        m_sampleRemain = m_samplePerBeat;
+    }
+
     if (m_sampleRemain < bufferToFill.numSamples) {
-        m_metronomeSample->setNextReadPosition(0);
+        m_metronomeSample->setNextReadPosition(-m_sampleRemain);
         m_metronomeSample->getNextAudioBlock(bufferToFill);
         m_sampleRemain += m_samplePerBeat;
     } else if (m_metronomeSample->getNextReadPosition() != 0) {
