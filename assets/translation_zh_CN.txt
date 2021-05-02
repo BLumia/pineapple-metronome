@@ -1,0 +1,5 @@
+language: Chinese
+countries: cn
+
+"OFF" = "关"
+"ON" = "开"

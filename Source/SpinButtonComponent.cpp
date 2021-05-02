@@ -1,7 +1,7 @@
 #include "SpinButtonComponent.h"
 #include <juce_graphics/juce_graphics.h>
 
-#include <math.h>
+#include <cmath>
 
 double radius(const PointF &origin, const PointF &start, const PointF &end)
 {
@@ -36,7 +36,7 @@ void SpinButtonComponent::paint (juce::Graphics& g)
 
     g.setFont(juce::Font(m_innerCircleRect.getWidth() / 3.2, juce::Font::bold));
     g.setColour(juce::Colours::black);
-    g.drawText(m_isOn ? "OFF" : "ON", getLocalBounds(), juce::Justification::centred, true);
+    g.drawText(m_isOn ? TRANS("OFF") : TRANS("ON"), getLocalBounds(), juce::Justification::centred, true);
 
     for (auto* trail : m_trails)
         drawTrail (*trail, g);
@@ -88,6 +88,11 @@ void SpinButtonComponent::mouseDown(const juce::MouseEvent &e)
 
 void SpinButtonComponent::drawTrail(SpinButtonComponent::Trail &trail, juce::Graphics &g)
 {
+#if JUCE_ANDROID
+    juce::ignoreUnused(trail);
+    juce::ignoreUnused(g);
+    return;
+#endif
     g.setColour (trail.colour);
     g.fillPath (trail.path);
 

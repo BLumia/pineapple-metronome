@@ -18,8 +18,8 @@ find_package(JUCE CONFIG REQUIRED)
 
 juce_add_gui_app(${EXE_NAME}
     # VERSION ...                       # Set this if the app version is different to the project version
-    # ICON_BIG ...                      # ICON_* arguments specify a path to an image file to use as an icon
-    # ICON_SMALL ...
+    ICON_BIG  assets/app-icon.png       # ICON_* arguments specify a path to an image file to use as an icon
+    ICON_SMALL assets/app-icon.png
     # DOCUMENT_EXTENSIONS ...           # Specify file extensions that should be associated with this app
     # COMPANY_NAME ...                  # Specify the name of the app's author
     PRODUCT_NAME "Pineapple Metronome"           # The name of the final executable, which can differ from the target name
@@ -40,13 +40,13 @@ juce_add_gui_app(${EXE_NAME}
 
 target_sources(${EXE_NAME}
     PRIVATE
-        Main.cpp
-        MainComponent.h
-        MainComponent.cpp
-        SpinButtonComponent.h
-        SpinButtonComponent.cpp
-        Metronome.h
-        Metronome.cpp
+        Source/Main.cpp
+        Source/MainComponent.h
+        Source/MainComponent.cpp
+        Source/SpinButtonComponent.h
+        Source/SpinButtonComponent.cpp
+        Source/Metronome.h
+        Source/Metronome.cpp
 )
 
 target_compile_definitions(${EXE_NAME}
@@ -70,6 +70,7 @@ target_compile_definitions(${EXE_NAME}
 juce_add_binary_data(${ASSETS_NAME}
     SOURCES
         assets/Snare.wav
+        assets/translation_zh_CN.txt
 )
 
 # blumia: reserved for Windows SDK when building with audio features.
@@ -91,6 +92,7 @@ target_link_libraries(${EXE_NAME}
         juce::juce_audio_formats
         juce::juce_audio_utils
         juce::juce_gui_extra
+        juce::juce_opengl # to use OpenGLContext for Android
     PUBLIC
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags

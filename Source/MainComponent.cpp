@@ -1,5 +1,7 @@
 #include "MainComponent.h"
 
+#include "BinaryData.h"
+
 //==============================================================================
 MainComponent::MainComponent()
 {
@@ -29,7 +31,20 @@ MainComponent::MainComponent()
         }
     };
 
-    setAudioChannels(2, 2);
+    m_openGLContext.attachTo(*getTopLevelComponent());
+
+    setAudioChannels(0, 2);
+
+    juce::Desktop::setScreenSaverEnabled(false);
+
+    if (juce::SystemStats::getUserLanguage() == "zh") {
+#ifdef JUCE_WINDOWS
+        juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypefaceName("Microsoft YaHei");
+#endif // JUCE_WINDOWS
+        juce::LocalisedStrings::setCurrentMappings(new juce::LocalisedStrings(
+                juce::String::createStringFromData(BinaryData::translation_zh_CN_txt, BinaryData::translation_zh_CN_txtSize),
+                false));
+    }
 }
 
 MainComponent::~MainComponent()

@@ -2,6 +2,7 @@
 
 #include <juce_gui_basics/juce_gui_basics.h>
 #include <juce_audio_utils/juce_audio_utils.h>
+#include <juce_opengl/juce_opengl.h>
 
 #include "SpinButtonComponent.h"
 #include "Metronome.h"
@@ -36,6 +37,8 @@ private:
 //    juce::ToggleButton m_playToggleButton;
     SpinButtonComponent m_playToggleButton;
     Metronome m_metronome;
+
+    juce::OpenGLContext m_openGLContext;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
