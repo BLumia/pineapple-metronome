@@ -9,7 +9,7 @@ Metronome::Metronome()
     m_formatManager.registerBasicFormats();
 
     std::unique_ptr<juce::MemoryInputStream> inputStream {
-        new juce::MemoryInputStream(BinaryData::Snare_wav, BinaryData::Snare_wavSize, true)
+        new juce::MemoryInputStream(BinaryData::Tick_wav, BinaryData::Tick_wavSize, true)
     };
 
 //    std::unique_ptr<juce::AudioFormatReader> reader {

@@ -69,7 +69,7 @@ target_compile_definitions(${EXE_NAME}
 
 juce_add_binary_data(${ASSETS_NAME}
     SOURCES
-        assets/Snare.wav
+        assets/Tick.wav
         assets/translation_zh_CN.txt
 )
 
